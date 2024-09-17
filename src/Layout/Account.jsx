@@ -38,6 +38,24 @@ export const SignContainer = styled.div`
         flex-direction: column;
     }
 
+    & .Information .input-control{
+        display: flex;
+        flex-direction: column;
+    }
+
+    & .Information .input-control .error{
+        color: red;
+    }
+
+    & .Information .input-control.success input{
+        border-color: #09c372;
+    }
+
+    & .Information .input-control.error input{
+        border-color: #ff3860; 
+    }
+
+
     & .Information legend{
         font-size: 1.25rem;
         margin: 0 0 1.25rem;
@@ -116,6 +134,8 @@ export default function Account() {
         showpassword: false
     })
 
+    const [formError, setFormError] = useState({})
+
     const func = (event) => {
         const fieldName = event.target.name;
         const fieldValue = event.target.value;
@@ -132,12 +152,51 @@ export default function Account() {
     }
 
     const handleSubmit = (event) => {
-        if (formdata.password !== formdata.confirmPassword) {
+        const errors = validate(formdata);
+        if (Object.keys(errors).length !== 0) {
             event.preventDefault();
+            setFormError(validate(formdata))
         }
-        else {
-            console.log("everything is fine")
+    }
+
+    useEffect(() => {
+        console.log(formError)
+        if (Object.keys(formError).length === 0) {
+            console.log(formdata);
         }
+    }, [formError])
+
+    const validate = (data) => {
+        const errors = {};
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/;
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])(?=.{8,})/;
+
+        if (!data.firstname) {
+            errors.firstname = "Firstname is required";
+        }
+
+        if (!data.lastname) {
+            errors.lastname = "Lastname is required";
+        }
+
+        if (!data.email) {
+            errors.email = "Email is required";
+        } else if (!regex.test(data.email)) {
+            errors.email = "Email is not valid";
+        }
+
+        if (!data.password) {
+            errors.password = "Password is required";
+        } else if (!passwordRegex.test(data.password)) {
+            errors.password = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number,and one special character."
+        }
+
+        if (data.password !== data.confirmPassword) {
+            errors.confirmPassword = "Password & Confirm Password are not same"
+        }
+
+        return errors;
+
     }
 
     return (
@@ -152,10 +211,16 @@ export default function Account() {
                     <form action="http://localhost:3000/sign-up" method="post" onSubmit={handleSubmit}>
                         <div className="Information">
                             <legend>Personal Information</legend>
-                            <label htmlFor="first">First Name</label>
-                            <input type="text" id="first" name="firstname" value={formdata.firstname} onChange={func} required />
-                            <label htmlFor="last">Last Name</label>
-                            <input type="text" id="last" name="lastname" value={formdata.lastname} onChange={func} required />
+                            <div className="input-control">
+                                <label htmlFor="first">First Name</label>
+                                <input type="text" id="first" name="firstname" value={formdata.firstname} onChange={func} />
+                                <div className="error">{formError.firstname}</div>
+                            </div>
+                            <div className="input-control">
+                                <label htmlFor="last">Last Name</label>
+                                <input type="text" id="last" name="lastname" value={formdata.lastname} onChange={func} />
+                                <div className="error">{formError.lastname}</div>
+                            </div>
                             <div className="field-choice">
                                 <input type="checkbox" id="check1" />
                                 <label htmlFor="check1">Sign Up For Newsletter</label>
@@ -165,12 +230,21 @@ export default function Account() {
                                 <label htmlFor="check2">Allow remote shopping assistance</label>
                             </div>
                             <legend>Sign-in Information</legend>
-                            <label htmlFor="email">Email</label>
-                            <input type="email" id="email" name="email" value={formdata.email} onChange={func} required />
-                            <label htmlFor="pass">Password</label>
-                            <input type={formdata.showpassword ? "text" : "password"} id="pass" name="password" value={formdata.password} onChange={func} required />
-                            <label htmlFor="confirm-pass">Confirm Password</label>
-                            <input type={formdata.showpassword ? "text" : "password"} id="confirm-pass" name="confirmPassword" value={formdata.confirmPassword} onChange={func} required />
+                            <div className="input-control">
+                                <label htmlFor="email">Email</label>
+                                <input type="email" id="email" name="email" value={formdata.email} onChange={func} />
+                                <div className="error">{formError.email}</div>
+                            </div>
+                            <div className="input-control">
+                                <label htmlFor="pass">Password</label>
+                                <input type={formdata.showpassword ? "text" : "password"} id="pass" name="password" value={formdata.password} onChange={func} />
+                                <div className="error">{formError.password}</div>
+                            </div>
+                            <div className="input-control">
+                                <label htmlFor="confirm-pass">Confirm Password</label>
+                                <input type={formdata.showpassword ? "text" : "password"} id="confirm-pass" name="confirmPassword" value={formdata.confirmPassword} onChange={func} />
+                                <div className="error">{formError.confirmPassword}</div>
+                            </div>
                             <div className="field-choice">
                                 <input type="checkbox" id="check3" value={formdata.showpassword} onChange={showPasswordFunc} />
                                 <label htmlFor="check3">Show Password</label>

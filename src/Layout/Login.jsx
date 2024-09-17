@@ -81,6 +81,15 @@ export const LoginContainer = styled.div`
         margin:0.2rem 0 0;
     }
 
+    & .customer-login .input-control{
+        display: flex;
+        flex-direction: column;
+    }
+
+    & .customer-login .input-control .error{
+        color: red;
+    }
+
     & .customer-login button{
         width: 100%;
         padding: .5rem 0rem;
@@ -154,6 +163,8 @@ export default function Login() {
         showpassword: false
     })
 
+    const [formError, setFormError] = useState({})
+
     const func = (event) => {
         const fieldname = event.target.name;
         const fieldvalue = event.target.value;
@@ -169,6 +180,33 @@ export default function Login() {
         })
     }
 
+    const validate = (data) => {
+        const errors = {};
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/;
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])(?=.{8,})/;
+        if (!data.email) {
+            errors.email = "Email is required"
+        } else if (!regex.test(data.email)) {
+            errors.email = "Email is not valid"
+        }
+
+        if (!data.password) {
+            errors.password = "Password is required";
+        } else if (!passwordRegex.test(data.password)) {
+            errors.password = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number,and one special character."
+        }
+
+        return errors
+    }
+
+    function onSubmit(event) {
+        const errors = validate(formdata);
+        if (Object.keys(errors).length !== 0) {
+            event.preventDefault();
+            setFormError(validate(formError));
+        }
+    }
+
     return (
         <>
             <LoginContainer>
@@ -179,13 +217,19 @@ export default function Login() {
                 </div>
                 <div className="login">
                     <div className="customer-login">
-                        <form action="http://localhost:3000/login" method="post">
+                        <form onClick={onSubmit} action="http://localhost:3000/login" method="post">
                             <strong>REGISTERED CUSTOMERS</strong>
                             <div className="div-content">if you have an account, sign in with your email address.</div>
-                            <label htmlFor="Email">Email</label>
-                            <input type="email" id="Email" required name="email" value={formdata.email} onChange={func} />
-                            <label htmlFor="Password">Password</label>
-                            <input type={formdata.showpassword ? "text" : "password"} id="password" name="password" value={formdata.password} onChange={func} />
+                            <div className="input-control">
+                                <label htmlFor="Email">Email</label>
+                                <input type="email" id="Email" name="email" value={formdata.email} onChange={func} />
+                                <div className="error">{formError.email}</div>
+                            </div>
+                            <div className="input-control">
+                                <label htmlFor="Password">Password</label>
+                                <input type={formdata.showpassword ? "text" : "password"} id="password" name="password" value={formdata.password} onChange={func} />
+                                <div className="error">{formError.password}</div>
+                            </div>
                             <div className="field">
                                 <input type="checkbox" id="show" value={formdata.showpassword} onChange={showPassFunc} />
                                 <label htmlFor="show">Show Password</label>

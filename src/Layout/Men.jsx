@@ -1,8 +1,13 @@
 import { useLoaderData } from "react-router";
 import styled from "styled-components";
 import MensSlider from "../Components/MensSlider";
+import { ProductData } from "../ProductData";
 import { NavLink } from "react-router-dom";
 import { useProduct } from "../Contexts/ProductContext";
+import { useData } from "../Contexts/ProductDataContext";
+import { useState } from "react";
+import MensMenubar from "../Components/MensMenubar";
+import MensCard from "../Components/MensCard";
 
 export const MensContainer = styled.div`
     &{
@@ -80,6 +85,7 @@ export const MensContainer = styled.div`
 
     & .main-container{
         display: flex;
+        gap: 1rem;
         position: relative;
     }
 
@@ -109,6 +115,27 @@ export const MensContainer = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    & .main-container .Mens-2 .scrollable a{
+        color:#e5e7eb;
+        width: 100%;
+        text-align: end;
+        font-size: .875rem;
+        color:#1f2937;
+        font-family: "Mukta";
+        font-size: 200;
+        cursor: pointer;
+    }   
+
+    & .main-container .Mens-2 .scrollable a:hover{
+        text-decoration: underline;
+    }
+
+    & .main-container .Mens-2 .scrollable .filter strong{
+        font-weight: 400;
+        font-size: 1rem;
+        color: #1f2937;
     }
 
     & .main-container .Mens-2 .sub i{
@@ -145,6 +172,48 @@ export const MensContainer = styled.div`
         margin: .5rem 0 .75rem;
         padding: 0;
         display: none;
+    }
+
+    & .main-container .Mens-2 .sub ol.colors a{
+        min-width: 3rem;
+        height: 3rem;
+        border: 1px solid #e5e7eb;
+    }
+
+    & .main-container .Mens-2 .sub ol.colors a.black{
+        background-color: black;
+    }
+
+    & .main-container .Mens-2 .sub ol.colors a.blue{
+        background-color: blue;
+    }
+
+    & .main-container .Mens-2 .sub ol.colors a.brown{
+        background-color: brown;
+    }
+
+    & .main-container .Mens-2 .sub ol.colors a.green{
+        background-color: green;
+    }
+
+    & .main-container .Mens-2 .sub ol.colors a.orange{
+        background-color: orange;
+    }
+
+    & .main-container .Mens-2 .sub ol.colors a.purple{
+        background-color: purple;
+    }
+
+    & .main-container .Mens-2 .sub ol.colors a.red{
+        background-color: red;
+    }
+
+    & .main-container .Mens-2 .sub ol.colors a.white{
+        background-color: white;
+    }
+
+    & .main-container .Mens-2 .sub ol.colors a.yellow{
+        background-color: yellow;
     }
 
     & .main-container .Mens-2 .sub ol li{
@@ -198,7 +267,9 @@ export const MensContainer = styled.div`
     }
 
     & .main-container .Mens-2 .sub #check-10:checked~ol{
-        display: block;
+        display: flex;
+        flex-wrap: wrap;
+        gap: .175rem;
     }
 
     & .main-container .Mens-2 .sub #check-11:checked~ol{
@@ -221,7 +292,7 @@ export const MensContainer = styled.div`
         display: flex;
         gap: 1rem;
         position: relative;
-        justify-content:space-around;
+        justify-content:center;
         width: 100%;
         /* height: 100%; */
         flex-wrap: wrap;
@@ -233,7 +304,7 @@ export const MensContainer = styled.div`
         flex-direction: column; */
         position: relative;
         z-index: 3;
-        width: clamp(10rem,100vw,14rem);
+        width: clamp(10rem,100vw,15.5rem);
         /* min-height: 18em; */
         height: auto;
         /* overflow: hidden; */
@@ -263,6 +334,7 @@ export const MensContainer = styled.div`
     & .main-container .Mens-3 .card .relative .absolute .card-img{
         height: 15rem;
         position: relative;
+        background-color: #f5eeeef6;
     }
 
     & .main-container .Mens-3 .card .relative .absolute .card-img .anchor{
@@ -285,7 +357,52 @@ export const MensContainer = styled.div`
     & .main-container .Mens-3 .card .relative .absolute .card-img img{
         width:100%;
         height: 100%;
+        mix-blend-mode: multiply;
     }
+
+
+    & .main-container .Mens-3 .card-2{
+        display: flex;
+        gap: .75rem;
+        position: relative;
+        justify-content:space-around;
+        width: 100%;
+        /* height: 100%; */
+        flex-wrap: wrap;
+    }
+
+
+    & .main-container .Mens-3 .card-2 .relative-2{
+        display: flex;
+        gap:.75rem;
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* min-height: 18em; */
+        /* height: auto; */
+        /* overflow: hidden; */
+        background-color: white;
+    }
+
+    & .main-container .Mens-3 .card-2 hr{
+        width: 100%;
+        color:rgb(31,41,55);
+    }
+
+    & .main-container .Mens-3 .card-2 .relative-2 .card-img-2{
+        height: 20rem;
+        max-width: 100%;
+        position: relative;
+        background-color: #f5eeeef6;
+    }
+
+    & .main-container .Mens-3 .card-2 .relative-2  .card-img-2 img{
+        width:100%;
+        height: 100%;
+        mix-blend-mode: multiply;
+    }
+
+
 
     & .main-container .Mens-3 .card .relative .absolute .quantity{
         display: none;
@@ -308,6 +425,32 @@ export const MensContainer = styled.div`
     }
 
     & .main-container .Mens-3 .card .relative .absolute .quantity button{
+        padding: 0 0.5rem 0 0.5rem;
+        background-color: blue;
+        border-radius:.5rem;
+    }
+
+    & .main-container .Mens-3 .card-2 .relative-2 .quantity{
+        display: none;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+
+    & .main-container .Mens-3 .card-2 .relative-2:hover .quantity{
+        display: flex;
+    }
+
+    & .main-container .Mens-3 .card-2 .relative-2 .quantity p{
+        margin: 0;
+        justify-self: center;
+    }
+
+    & .main-container .Mens-3 .card-2 .relative-2 .quantity-btn{
+        display: flex;
+        gap: 1rem;
+    }
+
+    & .main-container .Mens-3 .card-2 .relative-2 .quantity button{
         padding: 0 0.5rem 0 0.5rem;
         background-color: blue;
         border-radius:.5rem;
@@ -384,6 +527,81 @@ export const MensContainer = styled.div`
         background-color: #ede734;
     }
 
+    
+
+
+    & .main-container .Mens-3 .card-content-2{
+        display: flex;
+        flex-direction: column;
+    }
+
+    & .main-container .Mens-3 .card-content-2 a{
+        font-family: "Mukta";
+        font-size: 1rem;
+        color:#1f2937;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    & .main-container .Mens-3 .card-content-2 span{
+        font-weight: 600;
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+
+    & .main-container .Mens-3 .card-content-2 .color{
+        background-color: white;
+        display: flex;
+        flex-direction: row;
+        gap: 0.375rem;
+        /* justify-content: center; */
+        align-items: center;
+        margin: .25rem 0 .5rem;
+    }
+
+    & .main-container .Mens-3 .card-content-2 .color *{
+        height: 2rem;
+        width: 2rem;
+    }
+
+    & .main-container .Mens-3 .card-content-2 .color .red{
+        background-color: red;
+    }
+
+    & .main-container .Mens-3 .card-content-2 .color .black{
+        background-color: black;
+    }
+
+    & .main-container .Mens-3 .card-content-2 .color .gray{
+        background-color: gray;
+    }
+
+    & .main-container .Mens-3 .card-content-2 .demo-1{
+        display: flex;
+        flex-wrap: wrap;
+        gap:.25rem;
+    }
+
+    & .main-container .Mens-3 .card-content-2 .demo-sub{
+        display: flex;
+        gap:.35rem;
+        align-items: center;
+    }
+
+    & .main-container .Mens-3 .card-content-2 button{
+        border: none;
+        color: white;
+        font-size: 1.25rem;
+        font-family: "Barlow Semi Condensed";
+        background-color: #1f2937;
+        font-weight: 600;
+        padding: .5rem 1.25rem;
+    }
+
+    & .main-container .Mens-3 .card-content-2 button:hover{
+        background-color: #ede734;
+    }
+
     & .main-container .Mens-3 .bar{
             display: flex;
             /* flex-wrap: wrap; */
@@ -448,37 +666,6 @@ export const MensContainer = styled.div`
     & .main-container .Mens-3 .bar .bar-3 .fa-arrow-up{
         color: #9ca3af;
     }
-
-    /* & .slider{
-        display: flex;
-    }
-
-    & .slider .sub-container{
-        display: flex;
-        gap: 1rem;
-        flex-wrap: nowrap;
-        overflow: hidden;
-    }
-
-    & .slider .slider-item{
-        display: flex;
-        flex-direction: column;
-    }
-
-    & .slider .slider-item .slider-content{
-        display: flex;
-        flex-direction: column;
-    }
-
-    & .slider .slider-item .slider-img{
-        height: 18rem;
-        width: 16rem;
-    }
-
-    & .slider .slider-item .slider-img img{
-        height: 100%;
-        width: 100%;
-    } */
 
     @media(max-width:767px){
         & .main-container .Mens-2{
@@ -591,6 +778,12 @@ export const MensContainer = styled.div`
         & .main-container .Mens-3 .bar .bar-3>label{
             display: none;
         }
+
+        & .main-container .Mens-3 .card-2 .relative-2 .card-img-2{
+            height: 15rem;
+            max-width: 100%;
+            position: relative;
+        }
     }
 
     @media(max-width:428px){
@@ -602,10 +795,35 @@ export const MensContainer = styled.div`
 
 
 export default function Men() {
-    const data = useLoaderData();
-    const sliderData = data.slice(0, 6);
-    const contextData = useProduct();
-    console.log(contextData.items);
+    // const { dataItems, filterByColor, filterBySize, sortByName, sortByPrice, originalDefault } = useData();
+    // const data = dataItems;
+    const slider = ProductData
+    const sliderData = slider.slice(0, 6);
+    // const contextData = useProduct();
+    // // console.log(contextData.items);
+
+    // const [view, setView] = useState(true);
+
+    // function handleSelect(e) {
+    //     const { value } = e.target;
+
+    //     switch (value) {
+    //         case "productname": sortByName();
+    //             break;
+    //         case "price": sortByPrice();
+    //             break;
+    //         default: originalDefault();
+    //     }
+    // }
+
+    // function grid() {
+    //     setView(false);
+    // }
+
+    // function flex() {
+    //     setView(true);
+    // }
+
     return (
         <>
             <MensContainer>
@@ -620,7 +838,7 @@ export default function Men() {
                 </div>
                 <input type="checkbox" id="check" />
                 <div className="main-container">
-                    <div className="Mens-2">
+                    {/* <div className="Mens-2">
                         <div className="sub special bg"><div>SHOP BY</div></div>
 
                         <div className="sub close">
@@ -787,10 +1005,17 @@ export default function Men() {
                                     <i className="fa-solid fa-angle-down fa-2xs" ></i>
                                 </div>
                             </label>
-                            {/* <ol>
-                                <li>Yes <span>(13)</span></li>
-                                <li>No <span>(72)</span></li>
-                            </ol> */}
+                            <ol className="colors">
+                                <a onClick={() => { filterByColor("black") }} className="black"></a>
+                                <a onClick={() => { filterByColor("blue") }} className="blue"></a>
+                                <a onClick={() => { filterByColor("brown") }} className="brown"></a>
+                                <a onClick={() => { filterByColor("green") }} className="green"></a>
+                                <a onClick={() => { filterByColor("orange") }} className="orange"></a>
+                                <a onClick={() => { filterByColor("purple") }} className="purple"></a>
+                                <a onClick={() => { filterByColor("red") }} className="red"></a>
+                                <a onClick={() => { filterByColor("white") }} className="white"></a>
+                                <a onClick={() => { filterByColor("yellow") }} className="yellow"></a>
+                            </ol>
                         </div>
 
                         <div className="sub special-2">
@@ -802,16 +1027,16 @@ export default function Men() {
                                 </div>
                             </label>
                             <ol>
-                                <li>O <span>(72)</span></li>
-                                <li>XS <span>(48)</span></li>
-                                <li>S <span>(48)</span></li>
-                                <li>M <span>(48)</span></li>
-                                <li>L <span>(48)</span></li>
-                                <li>XL <span>(48)</span></li>
-                                <li>32 <span>(24)</span></li>
-                                <li>33 <span>(24)</span></li>
-                                <li>34 <span>(24)</span></li>
-                                <li>36 <span>(24)</span></li>
+                                <li onClick={() => { filterBySize("O") }}>O <span>(72)</span></li>
+                                <li onClick={() => { filterBySize("XS") }}>XS <span>(48)</span></li>
+                                <li onClick={() => { filterBySize("S") }}>S <span>(48)</span></li>
+                                <li onClick={() => { filterBySize("M") }}>M <span>(48)</span></li>
+                                <li onClick={() => { filterBySize("L") }}>L <span>(48)</span></li>
+                                <li onClick={() => { filterBySize("XL") }}>XL <span>(48)</span></li>
+                                <li onClick={() => { filterBySize(32) }}>32 <span>(24)</span></li>
+                                <li onClick={() => { filterBySize(33) }}>33 <span>(24)</span></li>
+                                <li onClick={() => { filterBySize(34) }}>34 <span>(24)</span></li>
+                                <li onClick={() => { filterBySize(36) }}>36 <span>(24)</span></li>
                             </ol>
                         </div>
 
@@ -859,69 +1084,117 @@ export default function Men() {
                             </ol>
                         </div>
 
-                    </div>
-                    <div className="Mens-3">
+                    </div> */}
+                    <MensMenubar />
+                    <MensCard />
+                    {/* <div className="Mens-3">
                         <div className="bar">
                             <label htmlFor="check" className="close-sidebar"><i className="fa-solid fa-filter"></i> <strong>SHOP BY</strong></label>
                             <div className="bar-1">ITEMS 1-12 OF 72</div>
                             <div className="bar-2">
                                 <strong>VIEW AS&nbsp;</strong>
-                                <i className="fa-solid fa-qrcode"></i>
-                                <i className="fa-solid fa-bars"></i>
+                                <i className="fa-solid fa-qrcode" onClick={flex}></i>
+                                <i className="fa-solid fa-bars" onClick={grid}></i>
                             </div>
                             <div className="bar-3">
                                 <label htmlFor="opt">SORT BY</label>
-                                <select name="select" id="opt">
-                                    <option value="">POSITION</option>
-                                    <option value="">PRODUCT NAME</option>
-                                    <option value="">PRICE</option>
-                                    <option value="">SENSOR</option>
-                                    <option value="">VIDEO</option>
+                                <select name="select" onClick={handleSelect} id="opt">
+                                    <option value="position">POSITION</option>
+                                    <option value="productname">PRODUCT NAME</option>
+                                    <option value="price">PRICE</option>
+                                    <option value="sensor">SENSOR</option>
+                                    <option value="video">VIDEO</option>
                                 </select>
                                 <i className="fa-solid fa-arrow-up"></i>
                             </div>
                         </div>
-                        <div className="card">
-                            {data.map((el, idx) => {
-                                return (
-                                    <div className="relative" key={idx}>
-                                        <div className="absolute">
-                                            <div className="card-img">
-                                                <img src={el.image} alt="" />
-                                                <div className="anchor">
-                                                    <a href=""><i className="fa-regular fa-heart"></i></a>
-                                                    <a href=""><i className="fa-solid fa-scale-balanced"></i></a>
-                                                    <a href=""><i className="fa-regular fa-eye"></i></a>
+                        {view ?
+                            <div className="card">
+                                {data.map((el, idx) => {
+                                    return (
+                                        <div className="relative" key={idx}>
+                                            <div className="absolute">
+                                                <div className="card-img">
+                                                    <img src={el.image} alt="" />
+                                                    <div className="anchor">
+                                                        <a href=""><i className="fa-regular fa-heart"></i></a>
+                                                        <a href=""><i className="fa-solid fa-scale-balanced"></i></a>
+                                                        <a href=""><i className="fa-regular fa-eye"></i></a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="card-content">
-                                                <a href="">{el.brand}</a>
-                                                <span>${el.price}</span>
-                                                <div className="color">
-                                                    <div className="black"></div>
-                                                    <div className="red"></div>
-                                                    <div className="gray"></div>
+                                                <div className="card-content">
+                                                    <a href="">{el.brand}</a>
+                                                    <span>${el.price}</span>
+                                                    <div className="color">
+                                                        <div className="black"></div>
+                                                        <div className="red"></div>
+                                                        <div className="gray"></div>
+                                                    </div>
+                                                    {
+                                                        contextData.items.find((item) =>
+                                                            item.id === el.id)?.quantity > 0 ?
+                                                            <div className="quantity">
+                                                                <p>Cart items:{contextData.items.find((item) =>
+                                                                    item.id === el.id)?.quantity}</p>
+                                                                <div className="quantity-btn">
+                                                                    <button onClick={() => { contextData.removeOneFromCart(el.id) }}>-</button>
+                                                                    <button onClick={() => { contextData.addOneToCart(el.id) }}>+</button>
+                                                                </div>
+                                                            </div> : <div className="quantity"><p>Item is not added</p></div>
+                                                    }
+                                                    <button onClick={() => { contextData.addOneToCart(el.id) }}>ADD TO CARD</button>
                                                 </div>
-                                                {
-                                                    contextData.items.find((item) =>
-                                                        item.id === el._id)?.quantity > 0 ?
-                                                        <div className="quantity">
-                                                            <p>Cart items:{contextData.items.find((item) =>
-                                                                item.id === el._id)?.quantity}</p>
-                                                            <div className="quantity-btn">
-                                                                <button onClick={() => { contextData.removeOneFromCart(el._id) }}>-</button>
-                                                                <button onClick={() => { contextData.addOneToCart(el._id) }}>+</button>
-                                                            </div>
-                                                        </div> : <div className="quantity"><p>Item is not added</p></div>
-                                                }
-                                                <button onClick={() => { contextData.addOneToCart(el._id) }}>ADD TO CARD</button>
                                             </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
+                                    );
+                                })}
+                            </div>
+
+                            : <div className="card-2">
+                                {data.map((el, idx) => {
+                                    return (
+                                        <>
+                                            <div className="relative-2" key={idx}>
+                                                <div className="card-img-2">
+                                                    <img src={el.image} alt="" />
+                                                </div>
+                                                <div className="card-content-2">
+                                                    <a href="">{el.brand}</a>
+                                                    <span>${el.price}</span>
+                                                    <div className="color">
+                                                        <div className="black"></div>
+                                                        <div className="red"></div>
+                                                        <div className="gray"></div>
+                                                    </div>
+                                                    {
+                                                        contextData.items.find((item) =>
+                                                            item.id === el.id)?.quantity > 0 ?
+                                                            <div className="quantity">
+                                                                <p>Cart items:{contextData.items.find((item) =>
+                                                                    item.id === el.id)?.quantity}</p>
+                                                                <div className="quantity-btn">
+                                                                    <button onClick={() => { contextData.removeOneFromCart(el.id) }}>-</button>
+                                                                    <button onClick={() => { contextData.addOneToCart(el.id) }}>+</button>
+                                                                </div>
+                                                            </div> : <div className="quantity"><p>Item is not added</p></div>
+                                                    }
+                                                    <div className="demo-1">
+                                                        <button onClick={() => { contextData.addOneToCart(el.id) }}>ADD TO CARD</button>
+                                                        <div className="demo-sub">
+                                                            <a href=""><i className="fa-regular fa-heart"></i></a>
+                                                            <a href=""><i className="fa-solid fa-scale-balanced"></i></a>
+                                                            <a href=""><i className="fa-regular fa-eye"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        </>
+                                    );
+                                })}
+                            </div>}
+
+                    </div> */}
                 </div>
                 <div className="Mens-4">
                     <h1>

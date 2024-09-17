@@ -5,9 +5,10 @@ import { useProduct } from "../Contexts/ProductContext";
 import { getProductData } from "../ProductData";
 
 export const NavContainer = styled.div`
-    margin-left: 2em;
-    /* height: 5em; */
-    margin-right: 2em;
+    /* margin-left: 2em;
+     height: 5em; 
+    margin-right: 2em;  */
+    padding: 0 1.375rem 0 1.375rem;
     font-family:'Barlow Semi Condensed';
     display: flex;
     justify-content: space-between;
@@ -152,6 +153,18 @@ export const NavContainer = styled.div`
         gap: 1rem;
         width: 15%;
         height: 2em;
+        position: relative;
+
+        & #search{
+            display: none;
+            position: absolute;
+            right: 4rem;
+            height: 2rem;
+        }
+
+        & #xyz:checked~#search{
+            display: block;
+        }
 
         & button,a{
             all: unset;
@@ -167,6 +180,7 @@ export const NavContainer = styled.div`
             z-index: 10;
             padding: .75rem 1rem;
             background-color: white;
+            box-shadow: 0 4px 15px -2px rgba(0, 0, 0, .1),0 1px 6px rgba(0, 0, 0, .05),0 0 0 1px rgb(0 0 0 / 10%);
         }
 
         & a ul.product-ul li{
@@ -218,6 +232,23 @@ export const NavContainer = styled.div`
         & a ul.product-ul li.card-info .card-info-data .delete-btn{
             display: flex;
             justify-content: space-between;
+        }
+
+        & a ul.product-ul li.card-info .card-info-data .delete-btn .qty-btn{
+            display: flex;
+            gap: 1rem;
+        }
+
+        & a ul.product-ul li.card-info .card-info-data .delete-btn .qty-btn button{
+            padding: 0 0.5rem 0 0.5rem;
+            border-radius:.5rem;
+            border: .5px solid;
+            border-color: white;
+        }
+
+        & a ul.product-ul li.card-info .card-info-data .delete-btn .qty-btn button:hover{
+            border-color: black;
+            background-color: beige;
         }
 
         & a ul.product-ul li.card-info .card-info-data .delete-btn p{
@@ -604,7 +635,11 @@ export default function Navbar() {
                 </div>
             </div>
             <div className="navbar3">
-                <button><i className="fa-solid fa-magnifying-glass"></i></button>
+                <input type="checkbox" id="xyz" />
+                <input id="search" type="text" placeholder="Search entire store here..." />
+                <label htmlFor="xyz">
+                    <i className="fa-solid fa-magnifying-glass"></i>
+                </label>
                 <input type="checkbox" id="product-list" />
                 <a>
                     <label htmlFor="product-list"><i className="fa-solid fa-bag-shopping"></i></label> {number}
@@ -626,10 +661,10 @@ export default function Navbar() {
                                 </li>
                                 <div className="scroll-div">
                                     {
-                                        contextData.items.map(el => {
+                                        contextData.items.map((el, idx) => {
                                             const productdata = getProductData(el.id);
                                             return (
-                                                <li className="card-info">
+                                                <li className="card-info" key={idx}>
                                                     <div className="card-info-img">
                                                         <img src={productdata.image} alt="" />
                                                     </div>
@@ -637,8 +672,12 @@ export default function Navbar() {
                                                         <p>{productdata.brand}</p>
                                                         <span>${productdata.price}</span>
                                                         <div className="delete-btn">
-                                                            <p>Qty {el.quantity}</p>
-                                                            <i class="fa-solid fa-trash" onClick={() => { contextData.deleteFromCart(el.id) }}></i>
+                                                            <div className="qty-btn">
+                                                                <button onClick={() => { contextData.removeOneFromCart(el.id) }}>-</button>
+                                                                <p>Qty {el.quantity}</p>
+                                                                <button onClick={() => { contextData.addOneToCart(el.id) }}>+</button>
+                                                            </div>
+                                                            <i className="fa-solid fa-trash" onClick={() => { contextData.deleteFromCart(el.id) }}></i>
                                                         </div>
                                                     </div>
                                                 </li>

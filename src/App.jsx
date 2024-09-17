@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 import Account from "./Layout/Account";
 import { ProductProvider } from "./Contexts/ProductContext";
+import Popup from "./Components/Popup";
 
 
 function App() {
@@ -21,12 +22,13 @@ function App() {
       <Route path="" element={<Home />} />
       <Route path="sign-in" element={<Login />} />
       <Route path="new" element={<Account />} />
-      <Route path="men" element={<Men />} loader={MenLoader} />
+      <Route path="men" element={<Men />} />
     </Route>
   ))
   return (
     <>
       <GlobalStyles />
+      <Popup />
       <RouterProvider router={router} />
     </>
   )

@@ -9,12 +9,21 @@ export const productContext = createContext(
         deleteFromCart: () => { },
         findTotalCost: () => { },
         findQuantity: () => { },
+        popup: false,
+        popupVisiblity: () => { },
+        specificProduct: ""
     }
 );
 
 
 export function ProductProvider({ children }) {
     const [arr, setArr] = useState([]);
+    const [isPopup, setIsPopup] = useState(false);
+    const [specificItem, setSpecficItem] = useState("");
+
+    const popup = isPopup;
+
+    const specificProduct = specificItem;
 
     function findQuantity(id) {
         const quantity = arr.find((el) => el.id === id)?.quantity;
@@ -30,12 +39,17 @@ export function ProductProvider({ children }) {
             setArr((prevArr) => {
                 return [...prevArr, { id: id, quantity: 1 }]
             })
+
+            setIsPopup(true);
+            let productdata = getProductData(id);
+            setSpecficItem(`${productdata.brand} is added to Cart`);
         }
         else {
             setArr((prevArr) => {
                 return prevArr.map((el) => el.id == id ? { ...el, quantity: el.quantity + 1 } : el)
             })
         }
+
     }
 
     function deleteFromCart(id) {
@@ -67,6 +81,10 @@ export function ProductProvider({ children }) {
         return totalcost;
     }
 
+    function popupVisiblity() {
+        setIsPopup(false);
+    }
+
     const contextValue = {
         items: arr,
         addOneToCart,
@@ -74,6 +92,9 @@ export function ProductProvider({ children }) {
         deleteFromCart,
         findTotalCost,
         findQuantity,
+        popup,
+        popupVisiblity,
+        specificProduct
     }
 
     return (

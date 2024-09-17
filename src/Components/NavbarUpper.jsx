@@ -7,8 +7,7 @@ export const NavbarUpperContainer = styled.div`
     border-bottom: 2px solid rgba(203,213,219,0.15);
     
     .header{
-        margin-left: 2em;
-        margin-right: 2em;
+        padding: 0.375rem 0.75rem;
         height: 100%;
         font-size: 16px;
         display: flex;
@@ -72,7 +71,7 @@ export const NavbarUpperContainer = styled.div`
         background-color: #f5f5f4;
     }
 
-    @media(max-width:640px){
+    @media(max-width:663px){
         &{
             display: none;
         }
