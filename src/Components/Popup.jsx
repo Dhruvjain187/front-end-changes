@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { useProduct } from "../Contexts/ProductContext"
+import ReactDom from "react-dom"
 
 export const PopContainer = styled.div`
     &{
@@ -29,8 +30,10 @@ export const PopContainer = styled.div`
 `
 
 export default function Popup() {
+    const pop = document.querySelector(".root-2");
     const { popup, popupVisiblity, specificProduct } = useProduct();
-    return (
+
+    return ReactDom.createPortal(
         <PopContainer>
             {popup ?
                 <div>
@@ -41,6 +44,7 @@ export default function Popup() {
                 <>
                 </>
             }
-        </PopContainer>
+        </PopContainer>,
+        pop
     )
 }

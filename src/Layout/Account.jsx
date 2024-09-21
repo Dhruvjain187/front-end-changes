@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 export const SignContainer = styled.div`
@@ -165,6 +165,7 @@ export default function Account() {
             console.log(formdata);
         }
     }, [formError])
+
 
     const validate = (data) => {
         const errors = {};
