@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { useData } from "../Contexts/ProductDataContext";
-import { useProduct } from "../Contexts/ProductContext";
+import { useSelector, useDispatch } from "react-redux"
+import { filterByColor, sortByName, sortByPrice, filterBySize, originalDefault, removeSelectedColor, removeSelectedSize, removeAll } from "../features/filterSlice"
+import { findQuantity, addOneToCart, deleteFromCart, removeOneFromCart, findTotalCost, popupVisiblity } from "../features/cartSlice"
 export default function MensCard() {
-    const { dataItems, filterByColor, filterBySize, sortByName, sortByPrice, originalDefault } = useData();
-    const data = dataItems;
-    const contextData = useProduct();
-    // console.log(contextData.items);
+    const data = useSelector(state => state.filterData.dataItems);
 
     const [view, setView] = useState(true);
 
+    const dispatch = useDispatch();
+
+    const list = useSelector(state => state.cartData.items);
+    console.log("list=", list)
 
     function grid() {
         setView(false);
@@ -22,11 +24,11 @@ export default function MensCard() {
         const { value } = e.target;
 
         switch (value) {
-            case "productname": sortByName();
+            case "productname": dispatch(sortByName());
                 break;
-            case "price": sortByPrice();
+            case "price": dispatch(sortByPrice());
                 break;
-            default: originalDefault();
+            default: dispatch(originalDefault());
         }
     }
 
@@ -76,18 +78,18 @@ export default function MensCard() {
                                                 <div className="gray"></div>
                                             </div>
                                             {
-                                                contextData.items.find((item) =>
-                                                    item.id === el.id)?.quantity > 0 ?
+                                                list.find((item) =>
+                                                    item._id === el._id)?.quantity > 0 ?
                                                     <div className="quantity">
-                                                        <p>Cart items:{contextData.items.find((item) =>
-                                                            item.id === el.id)?.quantity}</p>
+                                                        <p>Cart items:{list.find((item) =>
+                                                            item._id === el._id)?.quantity}</p>
                                                         <div className="quantity-btn">
-                                                            <button onClick={() => { contextData.removeOneFromCart(el.id) }}>-</button>
-                                                            <button onClick={() => { contextData.addOneToCart(el.id) }}>+</button>
+                                                            <button onClick={() => { dispatch(removeOneFromCart(el._id)) & dispatch(findTotalCost()) }}>-</button>
+                                                            <button onClick={() => { dispatch(addOneToCart(el._id)) & dispatch(findTotalCost()) }}>+</button>
                                                         </div>
                                                     </div> : <div className="quantity"><p>Item is not added</p></div>
                                             }
-                                            <button onClick={() => { contextData.addOneToCart(el.id) }}>ADD TO CARD</button>
+                                            <button onClick={() => { dispatch(addOneToCart(el._id)) & dispatch(findTotalCost()) }}>ADD TO CARD</button>
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +103,7 @@ export default function MensCard() {
                                 <>
                                     <div className="relative-2" key={idx}>
                                         <div className="card-img-2">
-                                            <img src={el.image} alt="" />
+                                            <img src={el.image} alt="image" />
                                         </div>
                                         <div className="card-content-2">
                                             <a href="">{el.brand}</a>
@@ -112,19 +114,19 @@ export default function MensCard() {
                                                 <div className="gray"></div>
                                             </div>
                                             {
-                                                contextData.items.find((item) =>
+                                                list.find((item) =>
                                                     item.id === el.id)?.quantity > 0 ?
                                                     <div className="quantity">
-                                                        <p>Cart items:{contextData.items.find((item) =>
+                                                        <p>Cart items:{list.find((item) =>
                                                             item.id === el.id)?.quantity}</p>
                                                         <div className="quantity-btn">
-                                                            <button onClick={() => { contextData.removeOneFromCart(el.id) }}>-</button>
-                                                            <button onClick={() => { contextData.addOneToCart(el.id) }}>+</button>
+                                                            <button onClick={() => { () => { dispatch(removeOneFromCart(el.id)) } }}>-</button>
+                                                            <button onClick={() => { () => { dispatch(addOneToCart(el.id)) & dispatch(findTotalCost()) } }}>+</button>
                                                         </div>
                                                     </div> : <div className="quantity"><p>Item is not added</p></div>
                                             }
                                             <div className="demo-1">
-                                                <button onClick={() => { contextData.addOneToCart(el.id) }}>ADD TO CARD</button>
+                                                <button onClick={() => { dispatch(addOneToCart(el.id)) & dispatch(findTotalCost()) }}>ADD TO CARD</button>
                                                 <div className="demo-sub">
                                                     <a href=""><i className="fa-regular fa-heart"></i></a>
                                                     <a href=""><i className="fa-solid fa-scale-balanced"></i></a>

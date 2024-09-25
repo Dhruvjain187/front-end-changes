@@ -3,11 +3,9 @@ import styled from "styled-components";
 import MensSlider from "../Components/MensSlider";
 import { ProductData } from "../ProductData";
 import { NavLink } from "react-router-dom";
-import { useProduct } from "../Contexts/ProductContext";
-import { useData } from "../Contexts/ProductDataContext";
-import { useState } from "react";
 import MensMenubar from "../Components/MensMenubar";
 import MensCard from "../Components/MensCard";
+import { Api } from "../utils/Api";
 
 export const MensContainer = styled.div`
     &{
@@ -797,33 +795,9 @@ export const MensContainer = styled.div`
 export default function Men() {
     // const { dataItems, filterByColor, filterBySize, sortByName, sortByPrice, originalDefault } = useData();
     // const data = dataItems;
+    console.log(Api)
     const slider = ProductData
     const sliderData = slider.slice(0, 6);
-    // const contextData = useProduct();
-    // // console.log(contextData.items);
-
-    // const [view, setView] = useState(true);
-
-    // function handleSelect(e) {
-    //     const { value } = e.target;
-
-    //     switch (value) {
-    //         case "productname": sortByName();
-    //             break;
-    //         case "price": sortByPrice();
-    //             break;
-    //         default: originalDefault();
-    //     }
-    // }
-
-    // function grid() {
-    //     setView(false);
-    // }
-
-    // function flex() {
-    //     setView(true);
-    // }
-
     return (
         <>
             <MensContainer>

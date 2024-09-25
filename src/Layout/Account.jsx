@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
@@ -125,46 +126,56 @@ export const SignContainer = styled.div`
 `;
 
 export default function Account() {
-    const [formdata, setFormData] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        showpassword: false
-    })
+    // const [formdata, setFormData] = useState({
+    //     firstname: "",
+    //     lastname: "",
+    //     email: "",
+    //     password: "",
+    //     confirmPassword: "",
+    //     showpassword: false
+    // })
+
+    const form = useRef();
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const [formError, setFormError] = useState({})
 
-    const func = (event) => {
-        const fieldName = event.target.name;
-        const fieldValue = event.target.value;
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-        setFormData((prevdata) => {
-            return { ...prevdata, [fieldName]: fieldValue };
-        })
-    }
-
-    const showPasswordFunc = () => {
-        setFormData((prevdata) => {
-            return { ...prevdata, showpassword: !formdata.showpassword };
-        })
-    }
-
-    const handleSubmit = (event) => {
-        const errors = validate(formdata);
-        if (Object.keys(errors).length !== 0) {
-            event.preventDefault();
-            setFormError(validate(formdata))
+        const data = {
+            firstname: form.current.firstname.value,
+            lastname: form.current.lastname.value,
+            email: form.current.email.value,
+            password: form.current.password.value,
+            confirmPassword: form.current.confirmPassword.value,
         }
-    }
 
-    useEffect(() => {
-        console.log(formError)
-        if (Object.keys(formError).length === 0) {
-            console.log(formdata);
+        const errors = validate(data);
+        // console.log(errors)
+
+        if (Object.keys(errors).length === 0) {
+            axios.post('http://localhost:3000/sign-up', {
+                data,
+                Headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then((response) => {
+                    window.location.href = response.data
+                })
+                .catch((error) => {
+                    console.error('Error sending data:', error);
+                });
+
+            alert("Created account successfuly")
         }
-    }, [formError])
+        else {
+            setFormError(validate(data))
+        }
+
+    }
 
 
     const validate = (data) => {
@@ -200,6 +211,74 @@ export default function Account() {
 
     }
 
+
+
+
+
+    // const func = (event) => {
+    //     const fieldName = event.target.name;
+    //     const fieldValue = event.target.value;
+
+    //     setFormData((prevdata) => {
+    //         return { ...prevdata, [fieldName]: fieldValue };
+    //     })
+    // }
+
+    // const showPasswordFunc = () => {
+    //     setFormData((prevdata) => {
+    //         return { ...prevdata, showpassword: !formdata.showpassword };
+    //     })
+    // }
+
+    // const handleSubmit = (event) => {
+    //     const errors = validate(formdata);
+    //     if (Object.keys(errors).length !== 0) {
+    //         event.preventDefault();
+    //         setFormError(validate(formdata))
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     console.log(formError)
+    //     if (Object.keys(formError).length === 0) {
+    //         console.log(formdata);
+    //     }
+    // }, [formError])
+
+
+    // const validate = (data) => {
+    //     const errors = {};
+    //     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/;
+    //     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])(?=.{8,})/;
+
+    //     if (!data.firstname) {
+    //         errors.firstname = "Firstname is required";
+    //     }
+
+    //     if (!data.lastname) {
+    //         errors.lastname = "Lastname is required";
+    //     }
+
+    //     if (!data.email) {
+    //         errors.email = "Email is required";
+    //     } else if (!regex.test(data.email)) {
+    //         errors.email = "Email is not valid";
+    //     }
+
+    //     if (!data.password) {
+    //         errors.password = "Password is required";
+    //     } else if (!passwordRegex.test(data.password)) {
+    //         errors.password = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number,and one special character."
+    //     }
+
+    //     if (data.password !== data.confirmPassword) {
+    //         errors.confirmPassword = "Password & Confirm Password are not same"
+    //     }
+
+    //     return errors;
+
+    // }
+
     return (
         <>
             <SignContainer>
@@ -209,17 +288,17 @@ export default function Account() {
                     </span>
                 </h1>
                 <div className="Information-container">
-                    <form action="http://localhost:3000/sign-up" method="post" onSubmit={handleSubmit}>
+                    <form action="http://localhost:3000/sign-up" method="post" onSubmit={handleSubmit} ref={form}>
                         <div className="Information">
                             <legend>Personal Information</legend>
                             <div className="input-control">
                                 <label htmlFor="first">First Name</label>
-                                <input type="text" id="first" name="firstname" value={formdata.firstname} onChange={func} />
+                                <input type="text" id="first" name="firstname" />
                                 <div className="error">{formError.firstname}</div>
                             </div>
                             <div className="input-control">
                                 <label htmlFor="last">Last Name</label>
-                                <input type="text" id="last" name="lastname" value={formdata.lastname} onChange={func} />
+                                <input type="text" id="last" name="lastname" />
                                 <div className="error">{formError.lastname}</div>
                             </div>
                             <div className="field-choice">
@@ -233,21 +312,21 @@ export default function Account() {
                             <legend>Sign-in Information</legend>
                             <div className="input-control">
                                 <label htmlFor="email">Email</label>
-                                <input type="email" id="email" name="email" value={formdata.email} onChange={func} />
+                                <input type="email" id="email" name="email" />
                                 <div className="error">{formError.email}</div>
                             </div>
                             <div className="input-control">
                                 <label htmlFor="pass">Password</label>
-                                <input type={formdata.showpassword ? "text" : "password"} id="pass" name="password" value={formdata.password} onChange={func} />
+                                <input type={showPassword ? "text" : "password"} id="pass" name="password" />
                                 <div className="error">{formError.password}</div>
                             </div>
                             <div className="input-control">
                                 <label htmlFor="confirm-pass">Confirm Password</label>
-                                <input type={formdata.showpassword ? "text" : "password"} id="confirm-pass" name="confirmPassword" value={formdata.confirmPassword} onChange={func} />
+                                <input type={showPassword ? "text" : "password"} id="confirm-pass" name="confirmPassword" />
                                 <div className="error">{formError.confirmPassword}</div>
                             </div>
                             <div className="field-choice">
-                                <input type="checkbox" id="check3" value={formdata.showpassword} onChange={showPasswordFunc} />
+                                <input type="checkbox" id="check3" onClick={(e) => { setShowPassword(!showPassword) }} />
                                 <label htmlFor="check3">Show Password</label>
                             </div>
                             <div className="field-choice">

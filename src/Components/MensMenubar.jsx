@@ -1,8 +1,13 @@
-import { useData } from "../Contexts/ProductDataContext";
+import { filterByColor, sortByName, sortByPrice, filterBySize, originalDefault, removeSelectedColor, removeSelectedSize, removeAll } from "../features/filterSlice"
+import { useSelector, useDispatch } from "react-redux";
+
 export default function MensMenubar() {
-    const { dataItems, filterByColor, filterBySize, sortByName, sortByPrice, originalDefault,
-        showColor, selectedColor, selectedSize, removeSelectedColor, removeSelectedSize, removeAll } = useData();
-    console.log(selectedColor)
+
+    const data = useSelector(state => state.filterData.dataItems);
+    const color = useSelector(state => state.filterData.selectedColor);
+    const size = useSelector(state => state.filterData.selectedSize);
+    const dispatch = useDispatch();
+
     return (
         <>
             <div className="Mens-2">
@@ -12,24 +17,24 @@ export default function MensMenubar() {
                     <label htmlFor="check" className="close-sidebar"><i className="fa-solid fa-xmark"></i></label>
                 </div>
 
-                {selectedColor.length !== 0 || selectedSize.length !== 0 ?
+                {color.length !== 0 || size.length !== 0 ?
                     <div className="sub special-2">
-                        {selectedColor.map((el, idx) =>
+                        {color.map((el, idx) =>
                             <div className="scrollable" key={idx}>
                                 <div className="filter">Color:<strong>{el}</strong></div>
-                                <i className="fa-solid fa-xmark fa-2xs" onClick={removeSelectedColor}></i>
+                                <i className="fa-solid fa-xmark fa-2xs" onClick={() => { dispatch(removeSelectedColor()) }}></i>
                             </div>)
                         }
 
-                        {selectedSize.map((el, idx) =>
+                        {size.map((el, idx) =>
                             <div className="scrollable" key={idx}>
                                 <div className="filter">Size:<strong>{el}</strong></div>
-                                <i className="fa-solid fa-xmark fa-2xs" onClick={removeSelectedSize}></i>
+                                <i className="fa-solid fa-xmark fa-2xs" onClick={() => { dispatch(removeSelectedSize()) }}></i>
                             </div>)
                         }
 
                         <div className="scrollable">
-                            <a onClick={removeAll}>Clear All</a>
+                            <a onClick={() => { dispatch(removeAll()) }}>Clear All</a>
                         </div>
                     </div>
                     :
@@ -188,7 +193,7 @@ export default function MensMenubar() {
                     </ol>
                 </div>
 
-                {selectedColor.length == 0 ?
+                {color.length == 0 ?
                     <div className="sub special-2">
                         <input type="checkbox" id="check-10" />
                         <label htmlFor="check-10" className="check-10">
@@ -198,15 +203,15 @@ export default function MensMenubar() {
                             </div>
                         </label>
                         <ol className="colors">
-                            <a onClick={() => { filterByColor("black") }} className="black"></a>
-                            <a onClick={() => { filterByColor("blue") }} className="blue"></a>
-                            <a onClick={() => { filterByColor("brown") }} className="brown"></a>
-                            <a onClick={() => { filterByColor("green") }} className="green"></a>
-                            <a onClick={() => { filterByColor("orange") }} className="orange"></a>
-                            <a onClick={() => { filterByColor("purple") }} className="purple"></a>
-                            <a onClick={() => { filterByColor("red") }} className="red"></a>
-                            <a onClick={() => { filterByColor("white") }} className="white"></a>
-                            <a onClick={() => { filterByColor("yellow") }} className="yellow"></a>
+                            <a onClick={() => { dispatch(filterByColor("black")) }} className="black"></a>
+                            <a onClick={() => { dispatch(filterByColor("blue")) }} className="blue"></a>
+                            <a onClick={() => { dispatch(filterByColor("brown")) }} className="brown"></a>
+                            <a onClick={() => { dispatch(filterByColor("green")) }} className="green"></a>
+                            <a onClick={() => { dispatch(filterByColor("orange")) }} className="orange"></a>
+                            <a onClick={() => { dispatch(filterByColor("purple")) }} className="purple"></a>
+                            <a onClick={() => { dispatch(filterByColor("red")) }} className="red"></a>
+                            <a onClick={() => { dispatch(filterByColor("white")) }} className="white"></a>
+                            <a onClick={() => { dispatch(filterByColor("yellow")) }} className="yellow"></a>
                         </ol>
                     </div>
                     :
@@ -214,7 +219,7 @@ export default function MensMenubar() {
                     </>
                 }
 
-                {selectedSize.length === 0 ?
+                {size.length === 0 ?
                     <div className="sub special-2">
                         <input type="checkbox" id="check-11" />
                         <label htmlFor="check-11" className="check-11">
@@ -224,16 +229,16 @@ export default function MensMenubar() {
                             </div>
                         </label>
                         <ol>
-                            <li onClick={() => { filterBySize("O") }}>O <span>(72)</span></li>
-                            <li onClick={() => { filterBySize("XS") }}>XS <span>(48)</span></li>
-                            <li onClick={() => { filterBySize("S") }}>S <span>(48)</span></li>
-                            <li onClick={() => { filterBySize("M") }}>M <span>(48)</span></li>
-                            <li onClick={() => { filterBySize("L") }}>L <span>(48)</span></li>
-                            <li onClick={() => { filterBySize("XL") }}>XL <span>(48)</span></li>
-                            <li onClick={() => { filterBySize(32) }}>32 <span>(24)</span></li>
-                            <li onClick={() => { filterBySize(33) }}>33 <span>(24)</span></li>
-                            <li onClick={() => { filterBySize(34) }}>34 <span>(24)</span></li>
-                            <li onClick={() => { filterBySize(36) }}>36 <span>(24)</span></li>
+                            <li onClick={() => { dispatch(filterBySize("O")) }}>O <span>(72)</span></li>
+                            <li onClick={() => { dispatch(filterBySize("XS")) }}>XS <span>(48)</span></li>
+                            <li onClick={() => { dispatch(filterBySize("S")) }}>S <span>(48)</span></li>
+                            <li onClick={() => { dispatch(filterBySize("M")) }}>M <span>(48)</span></li>
+                            <li onClick={() => { dispatch(filterBySize("L")) }}>L <span>(48)</span></li>
+                            <li onClick={() => { dispatch(filterBySize("XL")) }}>XL <span>(48)</span></li>
+                            <li onClick={() => { dispatch(filterBySize(32)) }}>32 <span>(24)</span></li>
+                            <li onClick={() => { dispatch(filterBySize(33)) }}>33 <span>(24)</span></li>
+                            <li onClick={() => { dispatch(filterBySize(34)) }}>34 <span>(24)</span></li>
+                            <li onClick={() => { dispatch(filterBySize(36)) }}>36 <span>(24)</span></li>
                         </ol>
                     </div>
                     :

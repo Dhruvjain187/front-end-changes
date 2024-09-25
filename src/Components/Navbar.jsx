@@ -1,8 +1,9 @@
-import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { useProduct } from "../Contexts/ProductContext";
 import { getProductData } from "../ProductData";
+import { useSelector, useDispatch } from "react-redux"
+import { findQuantity, addOneToCart, deleteFromCart, removeOneFromCart, findTotalCost, popupVisiblity } from "../features/cartSlice"
+
 
 export const NavContainer = styled.div`
     /* margin-left: 2em;
@@ -502,9 +503,13 @@ export const NavContainer = styled.div`
 `;
 
 export default function Navbar() {
-    const contextData = useProduct();
-    const finalCost = contextData.findTotalCost();
-    const number = contextData.items.reduce((acc, el) => acc + el.quantity, 0);
+    const dispatch = useDispatch();
+    const list = useSelector(state => state.cartData.items);
+    console.log("list=", list);
+    const finalCost2 = useSelector(state => state.cartData.cost);
+    console.log(finalCost2)
+    const number = list.reduce((acc, el) => acc + el.quantity, 0);
+
     return (
         <NavContainer>
             <input type="checkbox" id="sidebar-active" />
@@ -654,15 +659,15 @@ export default function Navbar() {
                             <>
                                 <li className="Proceed">
                                     <span>Cart Subtotal</span>
-                                    <span>${finalCost}</span>
+                                    <span>${finalCost2}</span>
                                 </li>
                                 <li className="btn">
                                     <button>Proceed to Checkout</button>
                                 </li>
                                 <div className="scroll-div">
                                     {
-                                        contextData.items.map((el, idx) => {
-                                            const productdata = getProductData(el.id);
+                                        list.map((el, idx) => {
+                                            const productdata = getProductData(el._id);
                                             return (
                                                 <li className="card-info" key={idx}>
                                                     <div className="card-info-img">
@@ -673,11 +678,11 @@ export default function Navbar() {
                                                         <span>${productdata.price}</span>
                                                         <div className="delete-btn">
                                                             <div className="qty-btn">
-                                                                <button onClick={() => { contextData.removeOneFromCart(el.id) }}>-</button>
+                                                                <button onClick={() => { dispatch(removeOneFromCart(el._id)) & dispatch(findTotalCost()) }}>-</button>
                                                                 <p>Qty {el.quantity}</p>
-                                                                <button onClick={() => { contextData.addOneToCart(el.id) }}>+</button>
+                                                                <button onClick={() => { dispatch(addOneToCart(el._id)) & dispatch(findTotalCost()) }}>+</button>
                                                             </div>
-                                                            <i className="fa-solid fa-trash" onClick={() => { contextData.deleteFromCart(el.id) }}></i>
+                                                            <i className="fa-solid fa-trash" onClick={() => { dispatch(deleteFromCart(el._id)) & dispatch(findTotalCost()) }}></i>
                                                         </div>
                                                     </div>
                                                 </li>
