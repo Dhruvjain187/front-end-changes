@@ -14,16 +14,17 @@ export const PopContainer = styled.div`
         align-items: center;
         gap: 1rem;
         position: fixed;
-        top: 1.5rem;
-        left: 15%;
-        right: 15%;
-        padding: 1rem;
-        background-color: #75b798;
+        top: .5rem;
+        left: 5%;
+        right: 5%;
+        padding:.5rem;
+        background-color: #a9eec9;
         border-radius: 1rem;
         z-index: 15;
     }
 
     & div p{
+        margin: 0;
         font-size: 1.3rem;
         color: black;
         font-weight: 600;
@@ -35,6 +36,10 @@ export default function Popup() {
     const popup = useSelector(state => state.cartData.popup);
     const specificProduct = useSelector(state => state.cartData.specificProduct)
     const dispatch = useDispatch();
+
+    setTimeout(() => {
+        dispatch(popupVisiblity())
+    }, 5000)
 
     return ReactDom.createPortal(
         <PopContainer>

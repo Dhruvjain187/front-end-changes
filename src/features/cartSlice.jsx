@@ -31,7 +31,7 @@ export const cartSlice = createSlice({
                 state.specificProduct = `${productdata.brand} is added to Cart`
             }
             else {
-                state.items = state.items.map((el) => el._id == action.payload ? { ...el, quantity: el.quantity + 1 } : el)
+                state.items = state.items.map((el) => el._id === action.payload ? { ...el, quantity: el.quantity + 1 } : el)
             }
         },
         deleteFromCart: (state, action) => {
@@ -45,6 +45,24 @@ export const cartSlice = createSlice({
             else {
                 state.items = state.items.map((el) => el._id === action.payload ? { ...el, quantity: el.quantity - 1 } : el)
             }
+        },
+        findProductQuantity: (state, action) => {
+            const quantity = state.items.find((el) => el._id === action.payload._id)?.quantity;
+            if (quantity === undefined) {
+                return 0;
+            }
+            return quantity
+        },
+        addProductWithQty: (state, action) => {
+            const quantity = cartSlice.caseReducers.findProductQuantity(state, action);
+            if (quantity) {
+                state.items = state.items.map(el => el._id === action.payload._id ? { ...el, quantity: el.quantity + action.payload.quantity } : el);
+            } else {
+                state.items.push(action.payload);
+            }
+            state.popup = true;
+            let productdata = getProductData(action.payload._id);
+            state.specificProduct = `${productdata.brand} is added to Cart`
         },
         findTotalCost: (state, action) => {
             state.cost = 0;
@@ -64,6 +82,6 @@ export const cartSlice = createSlice({
     }
 })
 
-export const { findQuantity, addOneToCart, deleteFromCart, removeOneFromCart, findTotalCost, popupVisiblity } = cartSlice.actions
+export const { findQuantity, addOneToCart, deleteFromCart, removeOneFromCart, findTotalCost, popupVisiblity, addProductWithQty } = cartSlice.actions
 
 export default cartSlice.reducer;

@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { filterByColor, sortByName, sortByPrice, filterBySize, originalDefault, removeSelectedColor, removeSelectedSize, removeAll } from "../features/filterSlice"
@@ -89,7 +90,8 @@ export default function MensCard() {
                                                         </div>
                                                     </div> : <div className="quantity"><p>Item is not added</p></div>
                                             }
-                                            <button onClick={() => { dispatch(addOneToCart(el._id)) & dispatch(findTotalCost()) }}>ADD TO CARD</button>
+                                            {/* <button onClick={() => { dispatch(addOneToCart(el._id)) & dispatch(findTotalCost()) }}>ADD TO CARD</button> */}
+                                            <NavLink className="anc" to={`/men/${el._id}`}>ADD TO CARD</NavLink>
                                         </div>
                                     </div>
                                 </div>
@@ -126,7 +128,8 @@ export default function MensCard() {
                                                     </div> : <div className="quantity"><p>Item is not added</p></div>
                                             }
                                             <div className="demo-1">
-                                                <button onClick={() => { dispatch(addOneToCart(el.id)) & dispatch(findTotalCost()) }}>ADD TO CARD</button>
+                                                {/* <button onClick={() => { dispatch(addOneToCart(el.id)) & dispatch(findTotalCost()) }}>ADD TO CARD</button> */}
+                                                <NavLink className="anc" to={`/men/${el._id}`}>ADD TO CARD</NavLink>
                                                 <div className="demo-sub">
                                                     <a href=""><i className="fa-regular fa-heart"></i></a>
                                                     <a href=""><i className="fa-solid fa-scale-balanced"></i></a>

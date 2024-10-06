@@ -176,7 +176,7 @@ export const NavContainer = styled.div`
             display: none;
             position: absolute;
             top: 0;
-            right:-2rem;
+            right:-1rem;
             width: 20rem;
             z-index: 10;
             padding: .75rem 1rem;

@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 import Account from "./Layout/Account";
 import Popup from "./Components/Popup";
+import MoreInfo from "./Layout/MoreInfo";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
       <Route path="sign-in" element={<Login />} />
       <Route path="new" element={<Account />} />
       <Route path="men" element={<Men />} />
+      <Route path="men/:id" element={<MoreInfo />} />
     </Route>
   ))
   return (

@@ -511,8 +511,10 @@ export const MensContainer = styled.div`
         background-color: gray;
     }
 
-    & .main-container .Mens-3 .card-content button{
+    & .main-container .Mens-3 .card-content a.anc{
         border: none;
+        height: 100%;
+        width: 100%;
         color: white;
         font-size: 1.25rem;
         font-family: "Barlow Semi Condensed";
@@ -521,7 +523,7 @@ export const MensContainer = styled.div`
         padding: .5rem 1.25rem;
     }
 
-    & .main-container .Mens-3 .card-content button:hover{
+    & .main-container .Mens-3 .card-content a.anc:hover{
         background-color: #ede734;
     }
 
@@ -586,7 +588,7 @@ export const MensContainer = styled.div`
         align-items: center;
     }
 
-    & .main-container .Mens-3 .card-content-2 button{
+    & .main-container .Mens-3 .card-content-2 a.anc{
         border: none;
         color: white;
         font-size: 1.25rem;
@@ -596,7 +598,7 @@ export const MensContainer = styled.div`
         padding: .5rem 1.25rem;
     }
 
-    & .main-container .Mens-3 .card-content-2 button:hover{
+    & .main-container .Mens-3 .card-content-2 a.anc:hover{
         background-color: #ede734;
     }
 
