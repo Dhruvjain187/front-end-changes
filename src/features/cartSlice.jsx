@@ -21,7 +21,7 @@ export const cartSlice = createSlice({
             return quantity
         },
         addOneToCart: (state, action) => {
-            const quantity = cartSlice.caseReducers.findQuantity(state, action);
+            const quantity = cartSlice.caseReducers.findProductQuantity(state, action);
             if (quantity == 0) {
                 state.items.push({ _id: action.payload, quantity: 1 })
 
@@ -31,28 +31,32 @@ export const cartSlice = createSlice({
                 state.specificProduct = `${productdata.brand} is added to Cart`
             }
             else {
-                state.items = state.items.map((el) => el._id === action.payload ? { ...el, quantity: el.quantity + 1 } : el)
+                state.items = state.items.map((el) => el._id === action.payload._id && el.color === action.payload.color ? { ...el, quantity: el.quantity + 1 } : el)
             }
         },
         deleteFromCart: (state, action) => {
-            state.items = state.items.filter((el) => el._id !== action.payload);
+            console.log(action.payload)
+            state.items = state.items.filter((el) => {
+                return !(el._id === action.payload._id && el.color === action.payload.color)
+            });
         },
         removeOneFromCart: (state, action) => {
-            const quantity = cartSlice.caseReducers.findQuantity(state, action);
+            const quantity = cartSlice.caseReducers.findProductQuantity(state, action);
             if (quantity == 1) {
                 cartSlice.caseReducers.deleteFromCart(state, action);
             }
             else {
-                state.items = state.items.map((el) => el._id === action.payload ? { ...el, quantity: el.quantity - 1 } : el)
+                state.items = state.items.map((el) => el._id === action.payload._id && el.color === action.payload.color ? { ...el, quantity: el.quantity - 1 } : el)
             }
         },
         findProductQuantity: (state, action) => {
-            const quantity = state.items.find((el) => el._id === action.payload._id)?.quantity;
+            const quantity = state.items.find((el) => (el._id === action.payload._id && el.color === action.payload.color))?.quantity;
             if (quantity === undefined) {
                 return 0;
             }
             return quantity
         },
+
         addProductWithQty: (state, action) => {
             const quantity = cartSlice.caseReducers.findProductQuantity(state, action);
             if (quantity) {
@@ -72,9 +76,6 @@ export const cartSlice = createSlice({
                 state.cost += productdata.price * el.quantity
             })
 
-
-
-            // return totalcost;
         },
         popupVisiblity: (state, action) => {
             state.popup = false;

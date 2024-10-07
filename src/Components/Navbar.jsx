@@ -676,13 +676,14 @@ export default function Navbar() {
                                                     <div className="card-info-data">
                                                         <p>{productdata.brand}</p>
                                                         <span>${productdata.price}</span>
+                                                        <p>{el.color}</p>
                                                         <div className="delete-btn">
                                                             <div className="qty-btn">
-                                                                <button onClick={() => { dispatch(removeOneFromCart(el._id)) & dispatch(findTotalCost()) }}>-</button>
+                                                                <button onClick={() => { dispatch(removeOneFromCart({ _id: el._id, color: el.color })) & dispatch(findTotalCost()) }}>-</button>
                                                                 <p>Qty {el.quantity}</p>
-                                                                <button onClick={() => { dispatch(addOneToCart(el._id)) & dispatch(findTotalCost()) }}>+</button>
+                                                                <button onClick={() => { dispatch(addOneToCart({ _id: el._id, color: el.color })) & dispatch(findTotalCost()) }}>+</button>
                                                             </div>
-                                                            <i className="fa-solid fa-trash" onClick={() => { dispatch(deleteFromCart(el._id)) & dispatch(findTotalCost()) }}></i>
+                                                            <i className="fa-solid fa-trash" onClick={() => { dispatch(deleteFromCart({ _id: el._id, color: el.color })) & dispatch(findTotalCost()) }}></i>
                                                         </div>
                                                     </div>
                                                 </li>

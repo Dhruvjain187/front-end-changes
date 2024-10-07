@@ -212,7 +212,7 @@ export default function QtyForm({ data }) {
         const specificData = {
             quantity: parseInt(formData.current.quantity.value),
             _id: data._id,
-            // color: formData.current.color.value
+            color: formData.current.color.value
         }
         // const quantity = formData.current.quantity.value;
         // const _id = data._id;
