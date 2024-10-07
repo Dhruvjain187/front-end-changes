@@ -1,5 +1,6 @@
 import { useState } from "react"
 import styled from "styled-components"
+import ShortsSlider from "./ShortsSlider"
 
 export const ImgContainer = styled.div`
     &{
@@ -9,7 +10,7 @@ export const ImgContainer = styled.div`
 
 const SmallImg = styled.div`
     &{
-        width: 10%;
+        width: 8%;
         display: flex;
         gap: 1rem;
         flex-direction: column;
@@ -19,11 +20,13 @@ const SmallImg = styled.div`
     & div{
         width: 100%;
         height: 7rem;
+        background-color:  rgb(244,244,244);
     }
 
     & img{
         height: 100%;
         width: 100%;
+        mix-blend-mode: multiply;
         /* height: 9.5rem; */
     }
 
@@ -49,10 +52,40 @@ const LargeImg = styled.div`
         /* max-height: 32rem; */
         min-height: 20rem;
         background-color: #f5eeeef6;
+        overflow: hidden;
     }
 
     & img{
         height: 100%;
+    }
+
+    & .slider-container{
+        width: 100%;
+        height: 100%;
+    }
+
+    & .slider-container img{
+        width: 100%;
+        mix-blend-mode: multiply;
+        /* max-height: 100%; */
+    }
+
+    & .slider-container div{
+        height: 100%;
+        background-color:  rgb(244,244,244);
+    }
+
+    .slick-prev:before, .slick-next:before {
+        color: black ;
+    }
+
+    .slick-next{
+        right: 25px;
+    }
+
+    .slick-prev{
+        left: 25px;
+        z-index: 5;
     }
 
     @media(max-width:780px){
@@ -99,10 +132,11 @@ export default function ImgList({ data }) {
                 )}
             </SmallImg>
             <LargeImg>
-                {img ?
+                {/* {img ?
                     <img src={img} alt="" /> :
                     <img src={data.smallImg[0]} alt="" />
-                }
+                } */}
+                <ShortsSlider images={data.smallImg} />
             </LargeImg>
         </>
     )

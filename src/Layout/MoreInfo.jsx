@@ -14,6 +14,7 @@ export const SpecificContainer = styled.div`
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
+        margin-bottom: 1rem;
     }
 `
 
