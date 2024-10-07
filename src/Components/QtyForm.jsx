@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { findQuantity, addOneToCart, deleteFromCart, removeOneFromCart, findTotalCost, popupVisiblity, addProductWithQty } from "../features/cartSlice"
 
+export const Input = styled.input`
+    background-color: ${props => (props.backcol ? props.backcol : "black")};    
+`
+
 export const Form = styled.form`
     display: flex;
     flex-direction: column;
@@ -66,7 +70,7 @@ export const Form = styled.form`
     }
 
 
-    & .color-div .btns input.red,& .color-div .btns input.black,& .color-div .btns input.gray{
+    & .color-div .btns input{
         -webkit-appearance: none; /* Remove default appearance */
         appearance: none;
         height: 3rem;
@@ -77,7 +81,11 @@ export const Form = styled.form`
         border: 2px solid orangered;    
     }
 
-    & .color-div .btns .red{
+    /* & .color-div .btns input{
+        background-color: ${props => (props.backcol ? "white" : "black")};
+    } */
+
+    /* & .color-div .btns .red{
         background-color: red;
     }
 
@@ -87,7 +95,7 @@ export const Form = styled.form`
 
     & .color-div .btns .gray{
         background-color: gray;
-    }
+    } */
 
     & .size-div .label-div{
         display: flex;
@@ -228,9 +236,15 @@ export default function QtyForm({ data }) {
                         <label htmlFor="">COLOR</label>
                     </div>
                     <div className="btns">
-                        <input type="radio" name="color" value="black" className="black" required />
+                        {/* <input type="radio" name="color" value="black" className="black" required />
                         <input type="radio" name="color" value="red" className="red" required />
-                        <input type="radio" name="color" value="gray" className="gray" required />
+                        <input type="radio" name="color" value="gray" className="gray" required /> */}
+                        {data.color.map((e, idx) => {
+                            return (
+                                // <input  />
+                                <Input type="radio" name="color" value={e} backcol={`${e}`} key={idx} required />
+                            )
+                        })}
                     </div>
                 </div>
 
